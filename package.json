@@ -1,0 +1,41 @@
+{
+  "name": "react-count-to",
+  "version": "0.1.0",
+  "description": "",
+  "main": "dist/react-count-to.js",
+  "scripts": {
+    "build": "babel ./src --out-dir ./dist",
+    "pretest": "jsxhint --babel ./src/*",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MicheleBertoli/react-count-to.git"
+  },
+  "keywords": [
+    "React.js",
+    "react-component"
+  ],
+  "author": "Michele Bertoli",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MicheleBertoli/react-count-to/issues"
+  },
+  "homepage": "https://github.com/MicheleBertoli/react-count-to",
+  "devDependencies": {
+    "babel": "^5.1.11",
+    "babel-jest": "^5.0.1",
+    "jest-cli": "^0.4.0",
+    "jsxhint": "^0.14.0",
+    "react": "^0.13.2"
+  },
+  "jest": {
+    "testPathDirs": [
+      "./src"
+    ],
+    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/react"
+    ]
+  }
+}
