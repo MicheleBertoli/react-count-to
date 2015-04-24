@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+- 0.10.33
+before_deploy:
+- npm run demo
+deploy:
+  provider: heroku
+  api_key:
+    secure: QBOU8ISenmRT376Be1gga0i+Oc7OPyYEmLTUtDZeHj6GyE3bGSJ0CK1GfzfEUg84JKfP7EMzdCf5G+SYs2pkbgyM6rQOBih2qMmxS4id4HCIExThi7Bod1Si5PsEtv0c2DvZWoDsoxUjSxgII7scln+U0/iH8MYLVbB97M8hyWw=
+  skip_cleanup: true
