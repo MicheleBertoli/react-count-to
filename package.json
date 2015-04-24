@@ -7,7 +7,8 @@
     "build": "babel ./src --out-dir ./dist",
     "pretest": "jsxhint --babel ./src/*",
     "test": "jest",
-    "demo": "browserify ./demo/index.js -o ./demo/build.js"
+    "demo": "browserify ./demo/index.js -o ./demo/build.js",
+    "start": "node server"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "babel-jest": "^5.0.1",
     "babelify": "^6.0.2",
     "browserify": "^9.0.8",
+    "express": "^4.12.3",
     "jest-cli": "^0.4.0",
     "jsxhint": "^0.14.0",
     "react": "^0.13.2",
