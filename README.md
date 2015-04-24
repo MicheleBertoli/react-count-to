@@ -32,7 +32,7 @@ Attributes
 - **from** (optional): Counting from (default: 0).
 - **to**: Counting to.
 - **speed**: Duration (in milliseconds).
-- **delay** (optional): Delay between each refresh (default: 100). 
+- **delay** (optional): Delay (in milliseconds) between each refresh (default: 100). 
 - **onComplete** (optional): A callback triggered when counting is done.
 
 Test

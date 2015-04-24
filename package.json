@@ -1,6 +1,6 @@
 {
   "name": "react-count-to",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "",
   "main": "dist/react-count-to.js",
   "scripts": {
