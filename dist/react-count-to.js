@@ -40,7 +40,7 @@ var CountTo = _React2['default'].createClass({
 
   next: function next() {
     if (this.state.counter < this.props.to) {
-      var counter = Math.floor(this.state.counter + this.increment);
+      var counter = this.state.counter + this.increment;
       this.setState({
         counter: counter
       });
@@ -60,7 +60,7 @@ var CountTo = _React2['default'].createClass({
     return _React2['default'].createElement(
       'span',
       null,
-      this.state.counter
+      Math.floor(this.state.counter)
     );
   }
 

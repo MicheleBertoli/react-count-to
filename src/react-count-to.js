@@ -29,7 +29,7 @@ let CountTo = React.createClass({
 
   next() {
     if (this.state.counter < this.props.to) {
-      let counter = Math.floor(this.state.counter + this.increment)
+      let counter =this.state.counter + this.increment
       this.setState({
         counter: counter
       });
@@ -47,7 +47,7 @@ let CountTo = React.createClass({
 
   render() {
     return (
-      <span>{this.state.counter}</span>
+      <span>{Math.floor(this.state.counter)}</span>
     );
   }
 
