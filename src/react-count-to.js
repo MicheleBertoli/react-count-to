@@ -18,8 +18,9 @@ let CountTo = React.createClass({
 
   componentDidMount() {
     let delay = this.props.delay || 100;
-    let loops = Math.ceil(this.props.speed / delay);
-    this.increment = (this.props.to - this.state.counter) / loops;
+    this.loopsCounter = 0;
+    this.loops = Math.ceil(this.props.speed / delay);
+    this.increment = (this.props.to - this.state.counter) / this.loops;
     this.interval = setInterval(this.next, delay);
   },
 
@@ -28,7 +29,8 @@ let CountTo = React.createClass({
   },
 
   next() {
-    if (this.state.counter < this.props.to) {
+    if (this.loopsCounter < this.loops) {
+      this.loopsCounter++;
       let counter =this.state.counter + this.increment
       this.setState({
         counter: counter

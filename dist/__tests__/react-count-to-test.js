@@ -12,17 +12,10 @@ describe('CountTo', function () {
 
   describe('with `to` and `speed` props', function () {
 
-    beforeEach(function () {
+    it('starts from 0, ends to 1', function () {
       countTo = TestUtils.renderIntoDocument(React.createElement(CountTo, { to: 1, speed: 1 }));
-    });
-
-    it('starts from 0', function () {
       var span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
       expect(span.getDOMNode().textContent).toEqual('0');
-    });
-
-    it('ends to 1', function () {
-      var span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
       jest.runAllTimers();
       expect(span.getDOMNode().textContent).toEqual('1');
     });
@@ -30,11 +23,8 @@ describe('CountTo', function () {
 
   describe('with `from` prop', function () {
 
-    beforeEach(function () {
-      countTo = TestUtils.renderIntoDocument(React.createElement(CountTo, { from: 1, to: 1, speed: 1 }));
-    });
-
     it('starts from 1', function () {
+      countTo = TestUtils.renderIntoDocument(React.createElement(CountTo, { from: 1, to: 1, speed: 1 }));
       var span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
       expect(span.getDOMNode().textContent).toEqual('1');
     });
@@ -42,26 +32,46 @@ describe('CountTo', function () {
 
   describe('with `delay` prop', function () {
 
-    beforeEach(function () {
-      countTo = TestUtils.renderIntoDocument(React.createElement(CountTo, { to: 1, speed: 1, delay: 1 }));
-    });
-
     it('sets increment to 1', function () {
+      countTo = TestUtils.renderIntoDocument(React.createElement(CountTo, { to: 1, speed: 1, delay: 1 }));
       expect(countTo.increment).toEqual(1);
     });
   });
 
   describe('with `onComplete` prop', function () {
 
-    var onComplete = jest.genMockFunction();
-
-    beforeEach(function () {
-      countTo = TestUtils.renderIntoDocument(React.createElement(CountTo, { to: 1, speed: 1, onComplete: onComplete }));
-    });
-
     it('calls onComplete', function () {
+      var onComplete = jest.genMockFunction();
+      countTo = TestUtils.renderIntoDocument(React.createElement(CountTo, { to: 1, speed: 1, onComplete: onComplete }));
       jest.runAllTimers();
       expect(onComplete).toBeCalled();
+    });
+  });
+
+  describe('with negative values', function () {
+
+    it('start from -1, ends to 1', function () {
+      countTo = TestUtils.renderIntoDocument(React.createElement(CountTo, { from: -1, to: 1, speed: 1 }));
+      var span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
+      expect(span.getDOMNode().textContent).toEqual('-1');
+      jest.runAllTimers();
+      expect(span.getDOMNode().textContent).toEqual('1');
+    });
+
+    it('start from 1, ends to -1', function () {
+      countTo = TestUtils.renderIntoDocument(React.createElement(CountTo, { from: 1, to: -1, speed: 1 }));
+      var span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
+      expect(span.getDOMNode().textContent).toEqual('1');
+      jest.runAllTimers();
+      expect(span.getDOMNode().textContent).toEqual('-1');
+    });
+
+    it('start from -1, ends to -2', function () {
+      countTo = TestUtils.renderIntoDocument(React.createElement(CountTo, { from: -1, to: -2, speed: 1 }));
+      var span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
+      expect(span.getDOMNode().textContent).toEqual('-1');
+      jest.runAllTimers();
+      expect(span.getDOMNode().textContent).toEqual('-2');
     });
   });
 });
