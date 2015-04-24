@@ -6,7 +6,8 @@
   "scripts": {
     "build": "babel ./src --out-dir ./dist",
     "pretest": "jsxhint --babel ./src/*",
-    "test": "jest"
+    "test": "jest",
+    "demo": "browserify ./demo/index.js -o ./demo/build.js"
   },
   "repository": {
     "type": "git",
@@ -25,9 +26,19 @@
   "devDependencies": {
     "babel": "^5.1.11",
     "babel-jest": "^5.0.1",
+    "babelify": "^6.0.2",
+    "browserify": "^9.0.8",
     "jest-cli": "^0.4.0",
     "jsxhint": "^0.14.0",
-    "react": "^0.13.2"
+    "react": "^0.13.2",
+    "superagent": "^1.2.0"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "babelify"
+      ]
+    ]
   },
   "jest": {
     "testPathDirs": [
