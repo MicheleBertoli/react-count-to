@@ -15,6 +15,16 @@ $ npm install react-count-to --save
 Demo
 ----
 
+*WITH DOCKER*
+
+- `docker build -t react-count-to .`
+
+- `docker run -p 3000:3000 -it react-count-to`
+
+- connect to `http://localhost:3000` and enjoy
+
+*LIVE DEMO*
+
 [http://react-count-to.herokuapp.com/](http://react-count-to.herokuapp.com/)
 
 Usage
