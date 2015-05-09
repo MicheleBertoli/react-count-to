@@ -61,7 +61,7 @@ var CountTo = _React2['default'].createClass({
     return _React2['default'].createElement(
       'span',
       null,
-      Math.floor(this.state.counter)
+      this.state.counter.toFixed()
     );
   }
 

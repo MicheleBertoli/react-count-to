@@ -1,7 +1,7 @@
 {
   "name": "react-count-to",
-  "version": "0.2.2",
-  "description": "",
+  "version": "0.2.3",
+  "description": "Animated counter component for React.js",
   "main": "dist/react-count-to.js",
   "scripts": {
     "build": "babel ./src --out-dir ./dist",

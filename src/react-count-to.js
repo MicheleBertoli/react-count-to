@@ -48,7 +48,7 @@ let CountTo = React.createClass({
 
   render() {
     return (
-      <span>{Math.floor(this.state.counter)}</span>
+      <span>{this.state.counter.toFixed()}</span>
     );
   }
 

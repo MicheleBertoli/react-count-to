@@ -23,7 +23,7 @@ Demo
 
 - `docker build -t react-count-to .`
 - `docker run -p 3000:3000 -it react-count-to`
-- connect to `http://localhost:3000` and enjoy
+- connect to [http://localhost:3000](http://localhost:3000) and enjoy
 
 Usage
 -----
