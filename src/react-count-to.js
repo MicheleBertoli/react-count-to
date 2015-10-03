@@ -1,6 +1,6 @@
 import React from 'react';
 
-let CountTo = React.createClass({
+const CountTo = React.createClass({
 
   propTypes: {
     from: React.PropTypes.number,
@@ -17,18 +17,29 @@ let CountTo = React.createClass({
   },
 
   componentDidMount() {
-    let delay = this.props.delay || 100;
-    this.loopsCounter = 0;
-    this.loops = Math.ceil(this.props.speed / delay);
-    this.increment = (this.props.to - this.state.counter) / this.loops;
-    this.interval = setInterval(this.next, delay);
+    this.start(this.props);
+  },
+
+  componentWillReceiveProps(nextProps) {
+    this.start(nextProps);
   },
 
   componentWillUnmount() {
     this.clear();
   },
 
-  next() {
+  start(props) {
+    this.clear();
+    this.setState(this.getInitialState(), () => {
+      const delay = this.props.delay || 100;
+      this.loopsCounter = 0;
+      this.loops = Math.ceil(props.speed / delay);
+      this.increment = (props.to - this.state.counter) / this.loops;
+      this.interval = setInterval(this.next.bind(this, props), delay);
+    });
+  },
+
+  next(props) {
     if (this.loopsCounter < this.loops) {
       this.loopsCounter++;
       this.setState({
@@ -36,8 +47,8 @@ let CountTo = React.createClass({
       });
     } else {
       this.clear();
-      if (this.props.onComplete) {
-        this.props.onComplete();
+      if (props.onComplete) {
+        props.onComplete();
       }
     }
   },

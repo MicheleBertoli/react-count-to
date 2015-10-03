@@ -74,4 +74,33 @@ describe('CountTo', function () {
       expect(span.getDOMNode().textContent).toEqual('-2');
     });
   });
+
+  describe('when receive new props', function () {
+
+    it('starts from 0, ends to 1', function () {
+      var Parent = React.createClass({
+        displayName: 'Parent',
+
+        getInitialState: function getInitialState() {
+          return {
+            to: 1
+          };
+        },
+        render: function render() {
+          return React.createElement(CountTo, { to: this.state.to, speed: 1 });
+        }
+      });
+      var parent = TestUtils.renderIntoDocument(React.createElement(Parent, null));
+      var span = TestUtils.findRenderedDOMComponentWithTag(parent, 'span');
+      expect(span.getDOMNode().textContent).toEqual('0');
+      jest.runAllTimers();
+      expect(span.getDOMNode().textContent).toEqual('1');
+      parent.setState({
+        to: 2
+      });
+      expect(span.getDOMNode().textContent).toEqual('0');
+      jest.runAllTimers();
+      expect(span.getDOMNode().textContent).toEqual('2');
+    });
+  });
 });

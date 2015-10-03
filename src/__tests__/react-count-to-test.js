@@ -2,9 +2,9 @@ jest.dontMock('../react-count-to');
 
 describe('CountTo', () => {
 
-  let React = require('react/addons');
-  let TestUtils = React.addons.TestUtils;
-  let CountTo = require('../react-count-to');
+  const React = require('react/addons');
+  const TestUtils = React.addons.TestUtils;
+  const CountTo = require('../react-count-to');
 
   let countTo;
 
@@ -14,8 +14,7 @@ describe('CountTo', () => {
       countTo = TestUtils.renderIntoDocument(
         <CountTo to={1} speed={1} />
       );
-      var span = TestUtils.findRenderedDOMComponentWithTag(
-        countTo, 'span');
+      const span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
       expect(span.getDOMNode().textContent).toEqual('0');
       jest.runAllTimers();
       expect(span.getDOMNode().textContent).toEqual('1');
@@ -29,8 +28,7 @@ describe('CountTo', () => {
       countTo = TestUtils.renderIntoDocument(
         <CountTo from={1} to={1} speed={1} />
       );
-      var span = TestUtils.findRenderedDOMComponentWithTag(
-        countTo, 'span');
+      const span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
       expect(span.getDOMNode().textContent).toEqual('1');
     });
 
@@ -50,7 +48,7 @@ describe('CountTo', () => {
   describe('with `onComplete` prop', () => {
 
     it('calls onComplete', () => {
-      let onComplete = jest.genMockFunction();
+      const onComplete = jest.genMockFunction();
       countTo = TestUtils.renderIntoDocument(
         <CountTo to={1} speed={1} onComplete={onComplete} />
       );
@@ -66,8 +64,7 @@ describe('CountTo', () => {
       countTo = TestUtils.renderIntoDocument(
         <CountTo from={-1} to={1} speed={1} />
       );
-      var span = TestUtils.findRenderedDOMComponentWithTag(
-        countTo, 'span');
+      const span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
       expect(span.getDOMNode().textContent).toEqual('-1');
       jest.runAllTimers();
       expect(span.getDOMNode().textContent).toEqual('1');
@@ -77,8 +74,7 @@ describe('CountTo', () => {
       countTo = TestUtils.renderIntoDocument(
         <CountTo from={1} to={-1} speed={1} />
       );
-      var span = TestUtils.findRenderedDOMComponentWithTag(
-        countTo, 'span');
+      const span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
       expect(span.getDOMNode().textContent).toEqual('1');
       jest.runAllTimers();
       expect(span.getDOMNode().textContent).toEqual('-1');
@@ -88,11 +84,40 @@ describe('CountTo', () => {
       countTo = TestUtils.renderIntoDocument(
         <CountTo from={-1} to={-2} speed={1} />
       );
-      var span = TestUtils.findRenderedDOMComponentWithTag(
-        countTo, 'span');
+      const span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
       expect(span.getDOMNode().textContent).toEqual('-1');
       jest.runAllTimers();
       expect(span.getDOMNode().textContent).toEqual('-2');
+    });
+
+  });
+
+  describe('when receive new props', () => {
+
+    it('starts from 0, ends to 1', () => {
+      const Parent = React.createClass({
+        getInitialState() {
+          return {
+            to: 1
+          };
+        },
+        render() {
+          return <CountTo to={this.state.to} speed={1} />;
+        }
+      });
+      const parent = TestUtils.renderIntoDocument(
+        <Parent />
+      );
+      const span = TestUtils.findRenderedDOMComponentWithTag(parent, 'span');
+      expect(span.getDOMNode().textContent).toEqual('0');
+      jest.runAllTimers();
+      expect(span.getDOMNode().textContent).toEqual('1');
+      parent.setState({
+        to: 2
+      });
+      expect(span.getDOMNode().textContent).toEqual('0');
+      jest.runAllTimers();
+      expect(span.getDOMNode().textContent).toEqual('2');
     });
 
   });

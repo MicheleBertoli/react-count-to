@@ -28,18 +28,31 @@ var CountTo = _React2['default'].createClass({
   },
 
   componentDidMount: function componentDidMount() {
-    var delay = this.props.delay || 100;
-    this.loopsCounter = 0;
-    this.loops = Math.ceil(this.props.speed / delay);
-    this.increment = (this.props.to - this.state.counter) / this.loops;
-    this.interval = setInterval(this.next, delay);
+    this.start(this.props);
+  },
+
+  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+    this.start(nextProps);
   },
 
   componentWillUnmount: function componentWillUnmount() {
     this.clear();
   },
 
-  next: function next() {
+  start: function start(props) {
+    var _this = this;
+
+    this.clear();
+    this.setState(this.getInitialState(), function () {
+      var delay = _this.props.delay || 100;
+      _this.loopsCounter = 0;
+      _this.loops = Math.ceil(props.speed / delay);
+      _this.increment = (props.to - _this.state.counter) / _this.loops;
+      _this.interval = setInterval(_this.next.bind(_this, props), delay);
+    });
+  },
+
+  next: function next(props) {
     if (this.loopsCounter < this.loops) {
       this.loopsCounter++;
       this.setState({
@@ -47,8 +60,8 @@ var CountTo = _React2['default'].createClass({
       });
     } else {
       this.clear();
-      if (this.props.onComplete) {
-        this.props.onComplete();
+      if (props.onComplete) {
+        props.onComplete();
       }
     }
   },
