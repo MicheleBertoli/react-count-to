@@ -2,13 +2,13 @@ import React from 'react';
 import request from 'superagent';
 import CountTo from '../dist/react-count-to';
 
-let App = React.createClass({
+const App = React.createClass({
 
   getInitialState() {
     return {
       isLoading: true,
       to: 0
-    }
+    };
   },
 
   componentDidMount() {
@@ -25,7 +25,7 @@ let App = React.createClass({
   },
 
   onComplete() {
-    console.log('completed!')
+    console.log('completed!');
   },
 
   renderLoading() {
