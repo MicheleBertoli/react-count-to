@@ -45,6 +45,18 @@ describe('CountTo', () => {
 
   });
 
+  describe('with `tofixed` prop', () => {
+
+    it('sets toFixed to fixed digits', () => {
+      countTo = TestUtils.renderIntoDocument(
+        <CountTo to={1.234567} speed={1} tofixed={2} />
+      );
+      const span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
+      expect(span.getDOMNode().textContent).toEqual('1.23');
+    });
+
+  });
+
   describe('with `onComplete` prop', () => {
 
     it('calls onComplete', () => {
