@@ -5,7 +5,7 @@
   "main": "dist/react-count-to.js",
   "scripts": {
     "build": "babel ./src --out-dir ./dist",
-    "pretest": "jsxhint --babel ./src/*",
+    "pretest": "eslint ./src/*",
     "test": "jest",
     "demo": "browserify ./demo/index.js -o ./demo/build.js",
     "start": "node server"
@@ -26,12 +26,14 @@
   "homepage": "https://github.com/MicheleBertoli/react-count-to",
   "devDependencies": {
     "babel": "^5.1.11",
+    "babel-eslint": "^4.1.3",
     "babel-jest": "^5.0.1",
     "babelify": "^6.0.2",
     "browserify": "^9.0.8",
+    "eslint": "^1.6.0",
+    "eslint-plugin-react": "^3.5.1",
     "express": "^4.12.3",
     "jest-cli": "^0.4.0",
-    "jsxhint": "^0.14.0",
     "react": "^0.13.2",
     "superagent": "^1.2.0"
   },
