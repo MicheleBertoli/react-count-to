@@ -7,7 +7,8 @@ const CountTo = React.createClass({
     to: React.PropTypes.number.isRequired,
     speed: React.PropTypes.number.isRequired,
     delay: React.PropTypes.number,
-    onComplete: React.PropTypes.func
+    onComplete: React.PropTypes.func,
+    digits: React.PropTypes.number
   },
 
   getInitialState() {
@@ -59,7 +60,7 @@ const CountTo = React.createClass({
 
   render() {
     return (
-      <span>{this.state.counter.toFixed()}</span>
+      <span>{this.state.counter.toFixed(this.props.digits)}</span>
     );
   }
 

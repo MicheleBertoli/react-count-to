@@ -60,7 +60,7 @@ describe('CountTo', () => {
 
   describe('with negative values', () => {
 
-    it('start from -1, ends to 1', () => {
+    it('starts from -1, ends to 1', () => {
       countTo = TestUtils.renderIntoDocument(
         <CountTo from={-1} to={1} speed={1} />
       );
@@ -70,7 +70,7 @@ describe('CountTo', () => {
       expect(span.getDOMNode().textContent).toEqual('1');
     });
 
-    it('start from 1, ends to -1', () => {
+    it('starts from 1, ends to -1', () => {
       countTo = TestUtils.renderIntoDocument(
         <CountTo from={1} to={-1} speed={1} />
       );
@@ -80,7 +80,7 @@ describe('CountTo', () => {
       expect(span.getDOMNode().textContent).toEqual('-1');
     });
 
-    it('start from -1, ends to -2', () => {
+    it('starts sfrom -1, ends to -2', () => {
       countTo = TestUtils.renderIntoDocument(
         <CountTo from={-1} to={-2} speed={1} />
       );
@@ -88,6 +88,20 @@ describe('CountTo', () => {
       expect(span.getDOMNode().textContent).toEqual('-1');
       jest.runAllTimers();
       expect(span.getDOMNode().textContent).toEqual('-2');
+    });
+
+  });
+
+  describe('with decimal values', () => {
+
+    it('starts from -0.5, ends to 0.5', () => {
+      countTo = TestUtils.renderIntoDocument(
+        <CountTo from={-0.5} to={0.5} speed={1} digits={1} />
+      );
+      const span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
+      expect(span.getDOMNode().textContent).toEqual('-0.5');
+      jest.runAllTimers();
+      expect(span.getDOMNode().textContent).toEqual('0.5');
     });
 
   });
