@@ -1,6 +1,6 @@
 {
   "name": "react-count-to",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Animated counter component for React.js",
   "main": "dist/react-count-to.js",
   "scripts": {
