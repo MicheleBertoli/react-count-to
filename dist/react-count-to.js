@@ -19,7 +19,8 @@ var CountTo = _React2['default'].createClass({
     speed: _React2['default'].PropTypes.number.isRequired,
     delay: _React2['default'].PropTypes.number,
     onComplete: _React2['default'].PropTypes.func,
-    digits: _React2['default'].PropTypes.number
+    digits: _React2['default'].PropTypes.number,
+    className: _React2['default'].PropTypes.string
   },
 
   getInitialState: function getInitialState() {
@@ -74,7 +75,7 @@ var CountTo = _React2['default'].createClass({
   render: function render() {
     return _React2['default'].createElement(
       'span',
-      null,
+      { className: this.props.className },
       this.state.counter.toFixed(this.props.digits)
     );
   }
