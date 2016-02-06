@@ -61,7 +61,9 @@ const CountTo = React.createClass({
 
   render() {
     return (
-      <span className={this.props.className}>{this.state.counter.toFixed(this.props.digits)}</span>
+      <span className={this.props.className}>
+        {this.state.counter.toFixed(this.props.digits)}
+      </span>
     );
   }
 
