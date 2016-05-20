@@ -44,6 +44,10 @@
     "react-dom": "^15.0.2",
     "superagent": "^2.0.0-alpha.3"
   },
+  "peerDependencies": {
+    "react": "^15.0.2",
+    "react-dom": "^15.0.2"
+  },
   "browserify": {
     "transform": [
       [
