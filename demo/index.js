@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import request from 'superagent';
 import CountTo from '../dist/react-count-to';
 
@@ -51,4 +52,4 @@ const App = React.createClass({
 
 });
 
-React.render(<App />, document.getElementById('count-to'));
+ReactDOM.render(<App />, document.getElementById('count-to'));
