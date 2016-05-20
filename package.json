@@ -8,8 +8,8 @@
     "lint": "eslint ./src/*",
     "pretest": "npm run lint",
     "test": "jest",
-    "demo": "browserify ./demo/index.js -o ./demo/build.js",
-    "start": "node server"
+    "demo": "browserify ./demo/public/index.js -o ./demo/public/build.js",
+    "start": "node ./demo/server"
   },
   "repository": {
     "type": "git",

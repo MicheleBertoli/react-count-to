@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import request from 'superagent';
-import CountTo from '../dist/react-count-to';
+import CountTo from '../../dist/react-count-to';
 
 const App = React.createClass({
 
