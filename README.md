@@ -19,7 +19,7 @@ Demo
 
 [http://react-count-to.herokuapp.com](http://react-count-to.herokuapp.com)
 
-**Docker** (thanks to [Alessandro Cinelli](https://github.com/cirpo))
+**Docker** (thanks to [Cirpo](https://github.com/cirpo))
 
 - `docker build -t react-count-to .`
 - `docker run -p 3000:3000 -it react-count-to`

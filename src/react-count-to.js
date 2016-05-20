@@ -9,12 +9,12 @@ const CountTo = React.createClass({
     delay: React.PropTypes.number,
     onComplete: React.PropTypes.func,
     digits: React.PropTypes.number,
-    className: React.PropTypes.string
+    className: React.PropTypes.string,
   },
 
   getInitialState() {
     return {
-      counter: this.props.from || 0
+      counter: this.props.from || 0,
     };
   },
 
@@ -45,7 +45,7 @@ const CountTo = React.createClass({
     if (this.loopsCounter < this.loops) {
       this.loopsCounter++;
       this.setState({
-        counter: this.state.counter + this.increment
+        counter: this.state.counter + this.increment,
       });
     } else {
       this.clear();
@@ -65,7 +65,7 @@ const CountTo = React.createClass({
         {this.state.counter.toFixed(this.props.digits)}
       </span>
     );
-  }
+  },
 
 });
 

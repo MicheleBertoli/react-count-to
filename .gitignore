@@ -1,2 +1,2 @@
-demo/build.js
-node_modules/
+demo/public/build.js
+node_modules

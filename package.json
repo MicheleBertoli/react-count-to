@@ -5,10 +5,11 @@
   "main": "dist/react-count-to.js",
   "scripts": {
     "build": "babel ./src --out-dir ./dist",
-    "pretest": "eslint ./src/*",
+    "lint": "eslint ./src/*",
+    "pretest": "npm run lint",
     "test": "jest",
-    "demo": "browserify ./demo/index.js -o ./demo/build.js",
-    "start": "node server"
+    "demo": "browserify ./demo/public/index.js -o ./demo/public/build.js",
+    "start": "node ./demo/server"
   },
   "repository": {
     "type": "git",
@@ -25,17 +26,27 @@
   },
   "homepage": "https://github.com/MicheleBertoli/react-count-to",
   "devDependencies": {
-    "babel": "^5.1.11",
-    "babel-eslint": "^4.1.3",
-    "babel-jest": "^5.0.1",
-    "babelify": "^6.0.2",
-    "browserify": "^9.0.8",
-    "eslint": "^1.6.0",
-    "eslint-plugin-react": "^3.5.1",
-    "express": "^4.12.3",
-    "jest-cli": "^0.4.0",
-    "react": "^0.13.2",
-    "superagent": "^1.2.0"
+    "babel-cli": "^6.9.0",
+    "babel-jest": "^12.0.2",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
+    "babelify": "^7.3.0",
+    "browserify": "^13.0.1",
+    "eslint": "^2.10.2",
+    "eslint-config-airbnb": "^9.0.1",
+    "eslint-plugin-import": "^1.8.0",
+    "eslint-plugin-jsx-a11y": "^1.2.2",
+    "eslint-plugin-react": "^5.1.1",
+    "express": "^4.13.4",
+    "jest-cli": "^12.0.2",
+    "react": "^15.0.2",
+    "react-addons-test-utils": "^15.0.2",
+    "react-dom": "^15.0.2",
+    "superagent": "^2.0.0-alpha.3"
+  },
+  "peerDependencies": {
+    "react": "^15.0.2",
+    "react-dom": "^15.0.2"
   },
   "browserify": {
     "transform": [
@@ -48,12 +59,10 @@
     "testPathDirs": [
       "./src"
     ],
-    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
     "unmockedModulePathPatterns": [
-      "<rootDir>/node_modules/react"
+      "<rootDir>/node_modules/react/",
+      "<rootDir>/node_modules/react-dom/",
+      "<rootDir>/node_modules/react-addons-test-utils/"
     ]
-  },
-  "engines": {
-    "node": "0.10.33"
   }
 }

@@ -1,13 +1,14 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import request from 'superagent';
-import CountTo from '../dist/react-count-to';
+import CountTo from '../../dist/react-count-to';
 
 const App = React.createClass({
 
   getInitialState() {
     return {
       isLoading: true,
-      to: 0
+      to: 0,
     };
   },
 
@@ -17,15 +18,15 @@ const App = React.createClass({
       .end(this.callback);
   },
 
+  onComplete() {
+    console.log('completed!');
+  },
+
   callback(err, res) {
     this.setState({
       isLoading: false,
-      to: res.body.stargazers_count
+      to: res.body.stargazers_count,
     });
-  },
-
-  onComplete() {
-    console.log('completed!');
   },
 
   renderLoading() {
@@ -47,8 +48,8 @@ const App = React.createClass({
         {this.state.isLoading ? this.renderLoading() : this.renderCountTo()}
       </div>
     );
-  }
+  },
 
 });
 
-React.render(<App />, document.getElementById('count-to'));
+ReactDOM.render(<App />, document.getElementById('count-to'));
