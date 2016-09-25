@@ -23,7 +23,7 @@ const CountTo = React.createClass({
     this.start(this.props);
   },
 
-  componentWillReceiveProps(nextProps, nextState) {
+  componentWillReceiveProps(nextProps) {
     if (!shallowequal(this.props, nextProps)) {
       this.start(nextProps);
     }
