@@ -1,4 +1,5 @@
 import React from 'react';
+import shallowequal from 'shallowequal';
 
 const CountTo = React.createClass({
 
@@ -22,8 +23,10 @@ const CountTo = React.createClass({
     this.start(this.props);
   },
 
-  componentWillReceiveProps(nextProps) {
-    this.start(nextProps);
+  componentWillReceiveProps(nextProps, nextState) {
+    if (!shallowequal(this.props, nextProps)) {
+      this.start(nextProps);
+    }
   },
 
   componentWillUnmount() {

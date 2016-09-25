@@ -1,26 +1,31 @@
 'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _React = require('react');
+var _react = require('react');
 
-var _React2 = _interopRequireWildcard(_React);
+var _react2 = _interopRequireDefault(_react);
 
-var CountTo = _React2['default'].createClass({
+var _shallowequal = require('shallowequal');
+
+var _shallowequal2 = _interopRequireDefault(_shallowequal);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var CountTo = _react2.default.createClass({
   displayName: 'CountTo',
 
+
   propTypes: {
-    from: _React2['default'].PropTypes.number,
-    to: _React2['default'].PropTypes.number.isRequired,
-    speed: _React2['default'].PropTypes.number.isRequired,
-    delay: _React2['default'].PropTypes.number,
-    onComplete: _React2['default'].PropTypes.func,
-    digits: _React2['default'].PropTypes.number,
-    className: _React2['default'].PropTypes.string
+    from: _react2.default.PropTypes.number,
+    to: _react2.default.PropTypes.number.isRequired,
+    speed: _react2.default.PropTypes.number.isRequired,
+    delay: _react2.default.PropTypes.number,
+    onComplete: _react2.default.PropTypes.func,
+    digits: _react2.default.PropTypes.number,
+    className: _react2.default.PropTypes.string
   },
 
   getInitialState: function getInitialState() {
@@ -28,19 +33,17 @@ var CountTo = _React2['default'].createClass({
       counter: this.props.from || 0
     };
   },
-
   componentDidMount: function componentDidMount() {
     this.start(this.props);
   },
-
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-    this.start(nextProps);
+  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextState) {
+    if (!(0, _shallowequal2.default)(this.props, nextProps)) {
+      this.start(nextProps);
+    }
   },
-
   componentWillUnmount: function componentWillUnmount() {
     this.clear();
   },
-
   start: function start(props) {
     var _this = this;
 
@@ -53,7 +56,6 @@ var CountTo = _React2['default'].createClass({
       _this.interval = setInterval(_this.next.bind(_this, props), delay);
     });
   },
-
   next: function next(props) {
     if (this.loopsCounter < this.loops) {
       this.loopsCounter++;
@@ -67,20 +69,16 @@ var CountTo = _React2['default'].createClass({
       }
     }
   },
-
   clear: function clear() {
     clearInterval(this.interval);
   },
-
   render: function render() {
-    return _React2['default'].createElement(
+    return _react2.default.createElement(
       'span',
       { className: this.props.className },
       this.state.counter.toFixed(this.props.digits)
     );
   }
-
 });
 
-exports['default'] = CountTo;
-module.exports = exports['default'];
+exports.default = CountTo;

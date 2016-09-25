@@ -4,7 +4,7 @@
   "description": "Animated counter component for React.js",
   "main": "dist/react-count-to.js",
   "scripts": {
-    "build": "babel ./src --out-dir ./dist",
+    "build": "babel ./src --out-dir ./dist --ignore __tests__",
     "lint": "eslint ./src/*",
     "pretest": "npm run lint",
     "test": "jest",
@@ -43,6 +43,9 @@
     "react-addons-test-utils": "^15.0.2",
     "react-dom": "^15.0.2",
     "superagent": "^2.0.0-alpha.3"
+  },
+  "dependencies": {
+    "shallowequal": "^0.2.2"
   },
   "peerDependencies": {
     "react": "^15.0.2",
