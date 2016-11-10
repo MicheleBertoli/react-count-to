@@ -16,6 +16,7 @@ const CountTo = React.createClass({
     return {
       from: 0,
       delay: 100,
+      digits: 0,
       onComplete: () => {},
     };
   },
