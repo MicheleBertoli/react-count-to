@@ -1,5 +1,4 @@
 import React from 'react';
-import shallowequal from 'shallowequal';
 
 const CountTo = React.createClass({
 
@@ -13,19 +12,31 @@ const CountTo = React.createClass({
     className: React.PropTypes.string,
   },
 
+  getDefaultProps() {
+    return {
+      from: 0,
+      delay: 100,
+      onComplete: () => {},
+    };
+  },
+
   getInitialState() {
     return {
-      counter: this.props.from || 0,
+      counter: this.props.from,
     };
   },
 
   componentDidMount() {
-    this.start(this.props);
+    this.start();
   },
 
   componentWillReceiveProps(nextProps) {
-    if (!shallowequal(this.props, nextProps)) {
-      this.start(nextProps);
+    const props = this.props;
+
+    // no need to restart animation if onComplete / digits / className changes
+    if (nextProps.to !== props.to || nextProps.from !== props.from
+    || nextProps.speed !== props.speed || nextProps.delay !== props.delay) {
+      this.start();
     }
   },
 
@@ -33,18 +44,18 @@ const CountTo = React.createClass({
     this.clear();
   },
 
-  start(props) {
+  start() {
     this.clear();
     this.setState(this.getInitialState(), () => {
-      const delay = this.props.delay || 100;
+      const delay = this.props.delay;
       this.loopsCounter = 0;
-      this.loops = Math.ceil(props.speed / delay);
-      this.increment = (props.to - this.state.counter) / this.loops;
-      this.interval = setInterval(this.next.bind(this, props), delay);
+      this.loops = Math.ceil(this.props.speed / delay);
+      this.increment = (this.props.to - this.state.counter) / this.loops;
+      this.interval = setInterval(this.next, delay);
     });
   },
 
-  next(props) {
+  next() {
     if (this.loopsCounter < this.loops) {
       this.loopsCounter++;
       this.setState({
@@ -52,9 +63,7 @@ const CountTo = React.createClass({
       });
     } else {
       this.clear();
-      if (props.onComplete) {
-        props.onComplete();
-      }
+      this.props.onComplete();
     }
   },
 

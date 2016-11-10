@@ -44,9 +44,7 @@
     "react-dom": "^15.0.2",
     "superagent": "^2.0.0-alpha.3"
   },
-  "dependencies": {
-    "shallowequal": "^0.2.2"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "react": "^15.0.2",
     "react-dom": "^15.0.2"
