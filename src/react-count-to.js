@@ -35,7 +35,6 @@ const CountTo = React.createClass({
   componentWillReceiveProps(nextProps) {
     const { from, to } = this.props;
 
-    // restart only if to / from changes
     if (nextProps.to !== to || nextProps.from !== from) {
       this.start();
     }
@@ -59,11 +58,10 @@ const CountTo = React.createClass({
 
   next() {
     if (this.loopsCounter < this.loops) {
-      let { counter } = this.state;
-      counter = counter + this.increment;
+      const { counter } = this.state;
       this.loopsCounter++;
       this.setState({
-        counter,
+        counter: counter + this.increment,
       });
     } else {
       const { onComplete } = this.props;
