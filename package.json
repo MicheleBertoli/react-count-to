@@ -1,6 +1,6 @@
 {
   "name": "react-count-to",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Animated counter component for React.js",
   "main": "dist/react-count-to.js",
   "scripts": {
@@ -9,7 +9,8 @@
     "pretest": "npm run lint",
     "test": "jest",
     "demo": "browserify ./demo/public/index.js -o ./demo/public/build.js",
-    "start": "node ./demo/server"
+    "start": "node ./demo/server",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",

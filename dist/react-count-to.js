@@ -8,10 +8,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _shallowequal = require('shallowequal');
-
-var _shallowequal2 = _interopRequireDefault(_shallowequal);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var CountTo = _react2.default.createClass({
@@ -28,44 +24,69 @@ var CountTo = _react2.default.createClass({
     className: _react2.default.PropTypes.string
   },
 
-  getInitialState: function getInitialState() {
+  getDefaultProps: function getDefaultProps() {
     return {
-      counter: this.props.from || 0
+      from: 0,
+      delay: 100,
+      digits: 0
+    };
+  },
+  getInitialState: function getInitialState() {
+    var from = this.props.from;
+
+
+    return {
+      counter: from
     };
   },
   componentDidMount: function componentDidMount() {
-    this.start(this.props);
+    this.start();
   },
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextState) {
-    if (!(0, _shallowequal2.default)(this.props, nextProps)) {
-      this.start(nextProps);
+  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+    var _props = this.props;
+    var from = _props.from;
+    var to = _props.to;
+
+
+    if (nextProps.to !== to || nextProps.from !== from) {
+      this.start();
     }
   },
   componentWillUnmount: function componentWillUnmount() {
     this.clear();
   },
-  start: function start(props) {
+  start: function start() {
     var _this = this;
 
     this.clear();
     this.setState(this.getInitialState(), function () {
-      var delay = _this.props.delay || 100;
+      var _props2 = _this.props;
+      var delay = _props2.delay;
+      var speed = _props2.speed;
+      var to = _props2.to;
+      var counter = _this.state.counter;
+
       _this.loopsCounter = 0;
-      _this.loops = Math.ceil(props.speed / delay);
-      _this.increment = (props.to - _this.state.counter) / _this.loops;
-      _this.interval = setInterval(_this.next.bind(_this, props), delay);
+      _this.loops = Math.ceil(speed / delay);
+      _this.increment = (to - counter) / _this.loops;
+      _this.interval = setInterval(_this.next, delay);
     });
   },
-  next: function next(props) {
+  next: function next() {
     if (this.loopsCounter < this.loops) {
+      var counter = this.state.counter;
+
       this.loopsCounter++;
       this.setState({
-        counter: this.state.counter + this.increment
+        counter: counter + this.increment
       });
     } else {
+      var onComplete = this.props.onComplete;
+
       this.clear();
-      if (props.onComplete) {
-        props.onComplete();
+
+      if (onComplete) {
+        onComplete();
       }
     }
   },
@@ -73,10 +94,17 @@ var CountTo = _react2.default.createClass({
     clearInterval(this.interval);
   },
   render: function render() {
+    var _props3 = this.props;
+    var className = _props3.className;
+    var digits = _props3.digits;
+    var counter = this.state.counter;
+
+    var value = counter.toFixed(digits);
+
     return _react2.default.createElement(
       'span',
-      { className: this.props.className },
-      this.state.counter.toFixed(this.props.digits)
+      { className: className },
+      value
     );
   }
 });
