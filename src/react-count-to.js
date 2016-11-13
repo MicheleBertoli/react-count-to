@@ -17,13 +17,14 @@ const CountTo = React.createClass({
       from: 0,
       delay: 100,
       digits: 0,
-      onComplete: () => {},
     };
   },
 
   getInitialState() {
+    const { from } = this.props;
+
     return {
-      counter: this.props.from,
+      counter: from,
     };
   },
 
@@ -32,11 +33,10 @@ const CountTo = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    const props = this.props;
+    const { from, to } = this.props;
 
-    // no need to restart animation if onComplete / digits / className changes
-    if (nextProps.to !== props.to || nextProps.from !== props.from
-    || nextProps.speed !== props.speed || nextProps.delay !== props.delay) {
+    // restart only if to / from changes
+    if (nextProps.to !== to || nextProps.from !== from) {
       this.start();
     }
   },
@@ -48,23 +48,30 @@ const CountTo = React.createClass({
   start() {
     this.clear();
     this.setState(this.getInitialState(), () => {
-      const delay = this.props.delay;
+      const { delay, speed, to } = this.props;
+      const { counter } = this.state;
       this.loopsCounter = 0;
-      this.loops = Math.ceil(this.props.speed / delay);
-      this.increment = (this.props.to - this.state.counter) / this.loops;
+      this.loops = Math.ceil(speed / delay);
+      this.increment = (to - counter) / this.loops;
       this.interval = setInterval(this.next, delay);
     });
   },
 
   next() {
     if (this.loopsCounter < this.loops) {
+      let { counter } = this.state;
+      counter = counter + this.increment;
       this.loopsCounter++;
       this.setState({
-        counter: this.state.counter + this.increment,
+        counter,
       });
     } else {
+      const { onComplete } = this.props;
       this.clear();
-      this.props.onComplete();
+
+      if (onComplete) {
+        onComplete();
+      }
     }
   },
 
@@ -73,9 +80,13 @@ const CountTo = React.createClass({
   },
 
   render() {
+    const { className, digits } = this.props;
+    const { counter } = this.state;
+    const value = counter.toFixed(digits);
+
     return (
-      <span className={this.props.className}>
-        {this.state.counter.toFixed(this.props.digits)}
+      <span className={className}>
+        {value}
       </span>
     );
   },
