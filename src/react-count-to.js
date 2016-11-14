@@ -58,11 +58,10 @@ const CountTo = React.createClass({
 
   next() {
     if (this.loopsCounter < this.loops) {
-      const { counter } = this.state;
       this.loopsCounter++;
-      this.setState({
+      this.setState(({ counter }) => ({
         counter: counter + this.increment,
-      });
+      }));
     } else {
       const { onComplete } = this.props;
       this.clear();
