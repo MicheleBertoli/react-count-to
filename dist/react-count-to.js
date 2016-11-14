@@ -73,12 +73,15 @@ var CountTo = _react2.default.createClass({
     });
   },
   next: function next() {
-    if (this.loopsCounter < this.loops) {
-      var counter = this.state.counter;
+    var _this2 = this;
 
+    if (this.loopsCounter < this.loops) {
       this.loopsCounter++;
-      this.setState({
-        counter: counter + this.increment
+      this.setState(function (_ref) {
+        var counter = _ref.counter;
+        return {
+          counter: counter + _this2.increment
+        };
       });
     } else {
       var onComplete = this.props.onComplete;
