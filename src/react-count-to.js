@@ -79,11 +79,9 @@ const CountTo = React.createClass({
   },
 
   render() {
-    const { className, digits, tagName } = this.props;
+    const { className, digits, tagName: Tag } = this.props;
     const { counter } = this.state;
     const value = counter.toFixed(digits);
-
-    const Tag = tagName;
 
     return (
       <Tag className={className}>
