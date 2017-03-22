@@ -44,6 +44,7 @@ Attributes
 - **onComplete** (optional): A callback triggered when counting is done.
 - **digits** (optional): The number of digits to appear after the decimal point (default: 0).
 - **className** (optional): HTML class attribute for counter element.
+- **tagName** (optional): Element name that will be displayed (default: 'span').
 
 Test
 ----
