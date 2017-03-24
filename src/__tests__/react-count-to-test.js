@@ -133,4 +133,18 @@ describe('CountTo', () => {
       expect(ReactDOM.findDOMNode(div).textContent).toEqual('1');
     });
   });
+
+  describe('with callback function', () => {
+    it('invokes callback function with parameters from 0 to 1 in ascending order', () => {
+      const fn = jest.fn().mockImplementation(value => <span>{value}</span>);
+      countTo = TestUtils.renderIntoDocument(
+        <CountTo to={1} speed={1}>{fn}</CountTo>
+      );
+      jest.runAllTimers();
+      const values = fn.mock.calls.map(args => parseInt(args[0], 10));
+      expect(values.length).toBeGreaterThan(0);
+      expect(fn).lastCalledWith('1');
+      expect([...values].sort()).toEqual(values);
+    });
+  });
 });
