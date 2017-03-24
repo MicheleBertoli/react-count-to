@@ -121,4 +121,16 @@ describe('CountTo', () => {
       expect(ReactDOM.findDOMNode(span).textContent).toEqual('2');
     });
   });
+
+  describe('with `tagName` prop', () => {
+    it('starts from 0, ends to 1', () => {
+      countTo = TestUtils.renderIntoDocument(
+        <CountTo to={1} speed={1} tagName={'div'} />
+      );
+      const div = TestUtils.findRenderedDOMComponentWithTag(countTo, 'div');
+      expect(ReactDOM.findDOMNode(div).textContent).toEqual('0');
+      jest.runAllTimers();
+      expect(ReactDOM.findDOMNode(div).textContent).toEqual('1');
+    });
+  });
 });

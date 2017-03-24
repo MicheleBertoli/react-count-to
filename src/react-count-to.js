@@ -10,6 +10,7 @@ const CountTo = React.createClass({
     onComplete: React.PropTypes.func,
     digits: React.PropTypes.number,
     className: React.PropTypes.string,
+    tagName: React.PropTypes.string,
   },
 
   getDefaultProps() {
@@ -17,6 +18,7 @@ const CountTo = React.createClass({
       from: 0,
       delay: 100,
       digits: 0,
+      tagName: 'span',
     };
   },
 
@@ -77,14 +79,14 @@ const CountTo = React.createClass({
   },
 
   render() {
-    const { className, digits } = this.props;
+    const { className, digits, tagName: Tag } = this.props;
     const { counter } = this.state;
     const value = counter.toFixed(digits);
 
     return (
-      <span className={className}>
+      <Tag className={className}>
         {value}
-      </span>
+      </Tag>
     );
   },
 
