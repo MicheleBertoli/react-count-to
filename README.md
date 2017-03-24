@@ -34,6 +34,16 @@ import CountTo from 'react-count-to';
 <CountTo to={1234} speed={1234} />
 ```
 
+or by passing function as a children
+ 
+```javascript
+import CountTo from 'react-count-to';
+
+const fn = value => <span>{value}</span>;
+
+<CountTo to={1234} speed={1234}>{fn}</CountTo>
+```
+
 Attributes
 ----------
 
@@ -45,6 +55,7 @@ Attributes
 - **digits** (optional): The number of digits to appear after the decimal point (default: 0).
 - **className** (optional): HTML class attribute for counter element.
 - **tagName** (optional): Element name that will be displayed (default: 'span').
+- **children** (optional): Function invoked on every update with value as parameter. Must return valid React element or null.
 
 Test
 ----
