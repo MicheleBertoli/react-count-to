@@ -20,7 +20,6 @@ const CountTo = React.createClass({
       delay: 100,
       digits: 0,
       tagName: 'span',
-      children: null,
     };
   },
 

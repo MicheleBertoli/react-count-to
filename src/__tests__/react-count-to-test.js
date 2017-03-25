@@ -134,17 +134,17 @@ describe('CountTo', () => {
     });
   });
 
-  describe('with callback function', () => {
-    it('invokes callback function with parameters from 0 to 1 in ascending order', () => {
+  describe('with child function', () => {
+    it('starts from 0, ends to 1', () => {
       const fn = jest.fn().mockImplementation(value => <span>{value}</span>);
       countTo = TestUtils.renderIntoDocument(
         <CountTo to={1} speed={1}>{fn}</CountTo>
       );
       jest.runAllTimers();
-      const values = fn.mock.calls.map(args => parseInt(args[0], 10));
-      expect(values.length).toBeGreaterThan(0);
+      expect(fn.mock.calls.length).toBe(3);
       expect(fn).lastCalledWith('1');
-      expect([...values].sort()).toEqual(values);
+      const span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
+      expect(ReactDOM.findDOMNode(span).textContent).toEqual('1');
     });
   });
 });
