@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 const CountTo = React.createClass({
 
   propTypes: {
-    from: React.PropTypes.number,
-    to: React.PropTypes.number.isRequired,
-    speed: React.PropTypes.number.isRequired,
-    delay: React.PropTypes.number,
-    onComplete: React.PropTypes.func,
-    digits: React.PropTypes.number,
-    className: React.PropTypes.string,
-    tagName: React.PropTypes.string,
-    children: React.PropTypes.func,
+    from: PropTypes.number,
+    to: PropTypes.number.isRequired,
+    speed: PropTypes.number.isRequired,
+    delay: PropTypes.number,
+    onComplete: PropTypes.func,
+    digits: PropTypes.number,
+    className: PropTypes.string,
+    tagName: PropTypes.string,
+    children: PropTypes.func,
   },
 
   getDefaultProps() {
