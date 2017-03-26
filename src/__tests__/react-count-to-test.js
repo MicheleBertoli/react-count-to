@@ -133,4 +133,18 @@ describe('CountTo', () => {
       expect(ReactDOM.findDOMNode(div).textContent).toEqual('1');
     });
   });
+
+  describe('with child function', () => {
+    it('starts from 0, ends to 1', () => {
+      const fn = jest.fn().mockImplementation(value => <span>{value}</span>);
+      countTo = TestUtils.renderIntoDocument(
+        <CountTo to={1} speed={1}>{fn}</CountTo>
+      );
+      jest.runAllTimers();
+      expect(fn.mock.calls.length).toBe(3);
+      expect(fn).lastCalledWith('1');
+      const span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
+      expect(ReactDOM.findDOMNode(span).textContent).toEqual('1');
+    });
+  });
 });
