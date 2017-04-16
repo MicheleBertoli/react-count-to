@@ -41,7 +41,6 @@
     "express": "^4.13.4",
     "jest-cli": "^12.0.2",
     "react": "^15.0.2",
-    "react-addons-test-utils": "^15.0.2",
     "react-dom": "^15.0.2",
     "superagent": "^2.0.0-alpha.3"
   },
@@ -63,7 +62,10 @@
     "unmockedModulePathPatterns": [
       "<rootDir>/node_modules/react/",
       "<rootDir>/node_modules/react-dom/",
-      "<rootDir>/node_modules/react-addons-test-utils/"
+      "<rootDir>/node_modules/prop-types/"
     ]
+  },
+  "dependencies": {
+    "prop-types": "^15.5.8"
   }
 }
