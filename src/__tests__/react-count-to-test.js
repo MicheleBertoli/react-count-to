@@ -1,6 +1,6 @@
 jest.unmock('../react-count-to');
 
-import React from 'react';
+import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import TestUtils from 'react-dom/test-utils';
 import CountTo from '../react-count-to';
@@ -96,16 +96,17 @@ describe('CountTo', () => {
 
   describe('when receive new props', () => {
     it('starts from 0, ends to 1', () => {
-      const Parent = React.createClass({
-        getInitialState() {
-          return {
+      class Parent extends Component {
+        constructor() {
+          super();
+          this.state = {
             to: 1,
           };
-        },
+        }
         render() {
           return <CountTo to={this.state.to} speed={1} />;
-        },
-      });
+        }
+      }
       const parent = TestUtils.renderIntoDocument(
         <Parent />
       );
