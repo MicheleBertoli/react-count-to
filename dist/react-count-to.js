@@ -76,7 +76,7 @@ var CountTo = function (_Component) {
 
 
       if (nextProps.to !== to || nextProps.from !== from) {
-        this.start();
+        this.start(nextProps);
       }
     }
   }, {
@@ -89,16 +89,17 @@ var CountTo = function (_Component) {
     value: function start() {
       var _this2 = this;
 
+      var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
+
       this.clear();
-      var from = this.props.from;
+      var from = props.from;
 
       this.setState({
         counter: from
       }, function () {
-        var _props2 = _this2.props,
-            delay = _props2.delay,
-            speed = _props2.speed,
-            to = _props2.to;
+        var delay = props.delay,
+            speed = props.speed,
+            to = props.to;
         var counter = _this2.state.counter;
 
         _this2.loopsCounter = 0;
@@ -138,11 +139,11 @@ var CountTo = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _props3 = this.props,
-          className = _props3.className,
-          digits = _props3.digits,
-          Tag = _props3.tagName,
-          fn = _props3.children;
+      var _props2 = this.props,
+          className = _props2.className,
+          digits = _props2.digits,
+          Tag = _props2.tagName,
+          fn = _props2.children;
       var counter = this.state.counter;
 
       var value = counter.toFixed(digits);
