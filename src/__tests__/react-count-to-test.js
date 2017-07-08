@@ -5,8 +5,6 @@ import { findDOMNode } from 'react-dom';
 import TestUtils from 'react-dom/test-utils';
 import CountTo from '../react-count-to';
 
-jest.useFakeTimers();
-
 describe('CountTo', () => {
   let countTo;
 
