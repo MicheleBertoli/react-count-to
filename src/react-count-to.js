@@ -43,7 +43,7 @@ class CountTo extends Component {
     const { from, to } = this.props;
 
     if (nextProps.to !== to || nextProps.from !== from) {
-      this.start();
+      this.start(nextProps);
     }
   }
 
@@ -51,9 +51,9 @@ class CountTo extends Component {
     this.clear();
   }
 
-  start() {
+  start(props = this.props) {
     this.clear();
-    const { from } = this.props;
+    const { from } = props;
     this.setState({
       counter: from,
     }, () => {

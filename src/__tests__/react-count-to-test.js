@@ -5,6 +5,8 @@ import { findDOMNode } from 'react-dom';
 import TestUtils from 'react-dom/test-utils';
 import CountTo from '../react-count-to';
 
+jest.useFakeTimers();
+
 describe('CountTo', () => {
   let countTo;
 
@@ -95,18 +97,20 @@ describe('CountTo', () => {
   });
 
   describe('when receive new props', () => {
-    it('starts from 0, ends to 1', () => {
-      class Parent extends Component {
-        constructor() {
-          super();
-          this.state = {
-            to: 1,
-          };
-        }
-        render() {
-          return <CountTo to={this.state.to} speed={1} />;
-        }
+    class Parent extends Component {
+      constructor() {
+        super();
+        this.state = {
+          from: 0,
+          to: 1,
+        };
       }
+      render() {
+        return <CountTo speed={1} {...this.state} />;
+      }
+    }
+
+    it('starts from 0, restarts from 0', () => {
       const parent = TestUtils.renderIntoDocument(
         <Parent />
       );
@@ -120,6 +124,23 @@ describe('CountTo', () => {
       expect(findDOMNode(span).textContent).toEqual('0');
       jest.runAllTimers();
       expect(findDOMNode(span).textContent).toEqual('2');
+    });
+
+    it('starts from 0, restarts from 2', () => {
+      const parent = TestUtils.renderIntoDocument(
+        <Parent />
+      );
+      const span = TestUtils.findRenderedDOMComponentWithTag(parent, 'span');
+      expect(findDOMNode(span).textContent).toEqual('0');
+      jest.runAllTimers();
+      expect(findDOMNode(span).textContent).toEqual('1');
+      parent.setState({
+        from: 2,
+        to: 3,
+      });
+      expect(findDOMNode(span).textContent).toEqual('2');
+      jest.runAllTimers();
+      expect(findDOMNode(span).textContent).toEqual('3');
     });
   });
 

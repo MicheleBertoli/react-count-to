@@ -76,7 +76,7 @@ var CountTo = function (_Component) {
 
 
       if (nextProps.to !== to || nextProps.from !== from) {
-        this.start();
+        this.start(nextProps);
       }
     }
   }, {
@@ -89,8 +89,10 @@ var CountTo = function (_Component) {
     value: function start() {
       var _this2 = this;
 
+      var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
+
       this.clear();
-      var from = this.props.from;
+      var from = props.from;
 
       this.setState({
         counter: from
