@@ -57,7 +57,7 @@ class CountTo extends Component {
     this.setState({
       counter: from,
     }, () => {
-      const { delay, speed, to } = props;
+      const { delay, speed, to } = this.props;
       const { counter } = this.state;
       this.loopsCounter = 0;
       this.loops = Math.ceil(speed / delay);
