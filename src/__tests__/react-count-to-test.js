@@ -161,7 +161,7 @@ describe('CountTo', () => {
         <CountTo to={1} speed={1}>{fn}</CountTo>
       );
       jest.runAllTimers();
-      expect(fn.mock.calls.length).toBe(3);
+      expect(fn.mock.calls.length).toBe(2);
       expect(fn).lastCalledWith('1');
       const span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
       expect(findDOMNode(span).textContent).toEqual('1');

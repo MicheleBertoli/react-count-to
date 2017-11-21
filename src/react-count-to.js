@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 const propTypes = {
@@ -20,7 +20,7 @@ const defaultProps = {
   tagName: 'span',
 };
 
-class CountTo extends Component {
+class CountTo extends PureComponent {
   constructor(props) {
     super();
 
