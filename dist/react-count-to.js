@@ -41,8 +41,8 @@ var defaultProps = {
   tagName: 'span'
 };
 
-var CountTo = function (_Component) {
-  _inherits(CountTo, _Component);
+var CountTo = function (_PureComponent) {
+  _inherits(CountTo, _PureComponent);
 
   function CountTo(props) {
     _classCallCheck(this, CountTo);
@@ -162,7 +162,7 @@ var CountTo = function (_Component) {
   }]);
 
   return CountTo;
-}(_react.Component);
+}(_react.PureComponent);
 
 CountTo.propTypes = propTypes;
 CountTo.defaultProps = defaultProps;
