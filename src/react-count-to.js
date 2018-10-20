@@ -11,6 +11,7 @@ const propTypes = {
   className: PropTypes.string,
   tagName: PropTypes.string,
   children: PropTypes.func,
+  easing: PropTypes.func,
 };
 
 const defaultProps = {
@@ -18,11 +19,12 @@ const defaultProps = {
   delay: 100,
   digits: 0,
   tagName: 'span',
+  easing: t => t,
 };
 
 class CountTo extends PureComponent {
   constructor(props) {
-    super();
+    super(props);
 
     const { from } = props;
 
@@ -58,10 +60,9 @@ class CountTo extends PureComponent {
       counter: from,
     }, () => {
       const { delay, speed, to } = this.props;
-      const { counter } = this.state;
       this.loopsCounter = 0;
       this.loops = Math.ceil(speed / delay);
-      this.increment = (to - counter) / this.loops;
+      this.delta = to - from;
       this.interval = setInterval(this.next, delay);
     });
   }
@@ -69,9 +70,11 @@ class CountTo extends PureComponent {
   next() {
     if (this.loopsCounter < this.loops) {
       this.loopsCounter++;
-      this.setState(({ counter }) => ({
-        counter: counter + this.increment,
-      }));
+      const { from, easing } = this.props;
+      const counter = from + this.delta * easing(this.loopsCounter / this.loops);
+      this.setState({
+        counter,
+      });
     } else {
       const { onComplete } = this.props;
       this.clear();

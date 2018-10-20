@@ -56,6 +56,7 @@ Attributes
 - **className** (optional): HTML class attribute for counter element.
 - **tagName** (optional): Element name that will be displayed (default: 'span').
 - **children** (optional): Function invoked on every update with value as parameter. Must return valid React element or null.
+- **easing** (optional): Function returning easing value based on input progress value from 0.0 to 1.0 (default: identity function).
 
 Test
 ----

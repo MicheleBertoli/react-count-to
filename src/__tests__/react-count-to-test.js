@@ -1,4 +1,5 @@
 jest.unmock('../react-count-to');
+jest.useFakeTimers();
 
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
@@ -30,18 +31,9 @@ describe('CountTo', () => {
     });
   });
 
-  describe('with `delay` prop', () => {
-    it('sets increment to 1', () => {
-      countTo = TestUtils.renderIntoDocument(
-        <CountTo to={1} speed={1} delay={1} />
-      );
-      expect(countTo.increment).toEqual(1);
-    });
-  });
-
   describe('with `onComplete` prop', () => {
     it('calls onComplete', () => {
-      const onComplete = jest.genMockFunction();
+      const onComplete = jest.fn();
       countTo = TestUtils.renderIntoDocument(
         <CountTo to={1} speed={1} onComplete={onComplete} />
       );
@@ -71,7 +63,7 @@ describe('CountTo', () => {
       expect(findDOMNode(span).textContent).toEqual('-1');
     });
 
-    it('starts sfrom -1, ends to -2', () => {
+    it('starts from -1, ends to -2', () => {
       countTo = TestUtils.renderIntoDocument(
         <CountTo from={-1} to={-2} speed={1} />
       );
@@ -165,6 +157,38 @@ describe('CountTo', () => {
       expect(fn).lastCalledWith('1');
       const span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
       expect(findDOMNode(span).textContent).toEqual('1');
+    });
+  });
+
+  describe('easing prop', () => {
+    it('does not modify behaviour by default', () => {
+      countTo = TestUtils.renderIntoDocument(
+        <CountTo to={10} speed={200} />
+      );
+      const span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
+      expect(findDOMNode(span).textContent).toEqual('0');
+      jest.advanceTimersByTime(100);
+      expect(findDOMNode(span).textContent).toEqual('5');
+      jest.advanceTimersByTime(100);
+      expect(findDOMNode(span).textContent).toEqual('10');
+    });
+
+    it('applies easing to the value', () => {
+      const easing = jest.fn()
+        .mockReturnValueOnce(0.2)
+        .mockReturnValueOnce(0.8)
+        .mockReturnValueOnce(1);
+      countTo = TestUtils.renderIntoDocument(
+        <CountTo to={10} speed={250} easing={easing} />
+      );
+      const span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
+      expect(findDOMNode(span).textContent).toEqual('0');
+      jest.advanceTimersByTime(100);
+      expect(findDOMNode(span).textContent).toEqual('2');
+      jest.advanceTimersByTime(100);
+      expect(findDOMNode(span).textContent).toEqual('8');
+      jest.runAllTimers();
+      expect(findDOMNode(span).textContent).toEqual('10');
     });
   });
 });
