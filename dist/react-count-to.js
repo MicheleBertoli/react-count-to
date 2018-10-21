@@ -31,14 +31,18 @@ var propTypes = {
   digits: _propTypes2.default.number,
   className: _propTypes2.default.string,
   tagName: _propTypes2.default.string,
-  children: _propTypes2.default.func
+  children: _propTypes2.default.func,
+  easing: _propTypes2.default.func
 };
 
 var defaultProps = {
   from: 0,
   delay: 100,
   digits: 0,
-  tagName: 'span'
+  tagName: 'span',
+  easing: function easing(t) {
+    return t;
+  }
 };
 
 var CountTo = function (_PureComponent) {
@@ -47,7 +51,7 @@ var CountTo = function (_PureComponent) {
   function CountTo(props) {
     _classCallCheck(this, CountTo);
 
-    var _this = _possibleConstructorReturn(this, (CountTo.__proto__ || Object.getPrototypeOf(CountTo)).call(this));
+    var _this = _possibleConstructorReturn(this, (CountTo.__proto__ || Object.getPrototypeOf(CountTo)).call(this, props));
 
     var from = props.from;
 
@@ -101,26 +105,25 @@ var CountTo = function (_PureComponent) {
             delay = _props2.delay,
             speed = _props2.speed,
             to = _props2.to;
-        var counter = _this2.state.counter;
 
         _this2.loopsCounter = 0;
         _this2.loops = Math.ceil(speed / delay);
-        _this2.increment = (to - counter) / _this2.loops;
+        _this2.delta = to - from;
         _this2.interval = setInterval(_this2.next, delay);
       });
     }
   }, {
     key: 'next',
     value: function next() {
-      var _this3 = this;
-
       if (this.loopsCounter < this.loops) {
         this.loopsCounter++;
-        this.setState(function (_ref) {
-          var counter = _ref.counter;
-          return {
-            counter: counter + _this3.increment
-          };
+        var _props3 = this.props,
+            from = _props3.from,
+            easing = _props3.easing;
+
+        var counter = from + this.delta * easing(this.loopsCounter / this.loops);
+        this.setState({
+          counter: counter
         });
       } else {
         var onComplete = this.props.onComplete;
@@ -140,11 +143,11 @@ var CountTo = function (_PureComponent) {
   }, {
     key: 'render',
     value: function render() {
-      var _props3 = this.props,
-          className = _props3.className,
-          digits = _props3.digits,
-          Tag = _props3.tagName,
-          fn = _props3.children;
+      var _props4 = this.props,
+          className = _props4.className,
+          digits = _props4.digits,
+          Tag = _props4.tagName,
+          fn = _props4.children;
       var counter = this.state.counter;
 
       var value = counter.toFixed(digits);
