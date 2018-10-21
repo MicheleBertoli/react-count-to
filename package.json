@@ -28,7 +28,7 @@
   "homepage": "https://github.com/MicheleBertoli/react-count-to",
   "devDependencies": {
     "babel-cli": "^6.9.0",
-    "babel-jest": "^12.0.2",
+    "babel-jest": "^23.6.0",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.5.0",
     "babelify": "^7.3.0",
