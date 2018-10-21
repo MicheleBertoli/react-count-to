@@ -15,8 +15,7 @@ describe('CountTo', () => {
       .mockReturnValueOnce(1)
       .mockReturnValueOnce(2)
       .mockReturnValueOnce(3)
-      .mockReturnValueOnce(4)
-      .mockReturnValueOnce(5);
+      .mockReturnValueOnce(4);
   });
 
   describe('with `to` and `speed` props', () => {
@@ -173,7 +172,6 @@ describe('CountTo', () => {
   describe('easing prop', () => {
     beforeEach(() => {
       global.Date.now = jest.fn()
-        .mockReturnValueOnce(0)
         .mockReturnValueOnce(0)
         .mockReturnValueOnce(100)
         .mockReturnValueOnce(200)

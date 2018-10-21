@@ -70,7 +70,7 @@ class CountTo extends PureComponent {
     const progress = Math.max(0, Math.min(1, 1 - (this.endDate - now) / speed));
     this.updateCounter(progress);
 
-    if (now <= this.endDate) {
+    if (now < this.endDate) {
       this.raf = requestAnimationFrame(this.next);
     } else if (onComplete) {
       onComplete();
