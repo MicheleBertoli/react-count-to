@@ -5,7 +5,6 @@ const propTypes = {
   from: PropTypes.number,
   to: PropTypes.number.isRequired,
   speed: PropTypes.number.isRequired,
-  delay: PropTypes.number,
   onComplete: PropTypes.func,
   digits: PropTypes.number,
   className: PropTypes.string,
@@ -16,7 +15,6 @@ const propTypes = {
 
 const defaultProps = {
   from: 0,
-  delay: 100,
   digits: 0,
   tagName: 'span',
   easing: t => t,
@@ -35,6 +33,7 @@ class CountTo extends PureComponent {
     this.start = this.start.bind(this);
     this.clear = this.clear.bind(this);
     this.next = this.next.bind(this);
+    this.updateCounter = this.updateCounter.bind(this);
   }
 
   componentDidMount() {
@@ -59,34 +58,36 @@ class CountTo extends PureComponent {
     this.setState({
       counter: from,
     }, () => {
-      const { delay, speed, to } = this.props;
-      this.loopsCounter = 0;
-      this.loops = Math.ceil(speed / delay);
-      this.delta = to - from;
-      this.interval = setInterval(this.next, delay);
+      const { speed } = this.props;
+      this.endDate = Date.now() + speed;
+      this.raf = requestAnimationFrame(this.next);
     });
   }
 
   next() {
-    if (this.loopsCounter < this.loops) {
-      this.loopsCounter++;
-      const { from, easing } = this.props;
-      const counter = from + this.delta * easing(this.loopsCounter / this.loops);
-      this.setState({
-        counter,
-      });
-    } else {
-      const { onComplete } = this.props;
-      this.clear();
+    const now = Date.now();
+    const { speed, onComplete } = this.props;
+    const progress = Math.max(0, Math.min(1, 1 - (this.endDate - now) / speed));
+    this.updateCounter(progress);
 
-      if (onComplete) {
-        onComplete();
-      }
+    if (now <= this.endDate) {
+      this.raf = requestAnimationFrame(this.next);
+    } else if (onComplete) {
+      onComplete();
     }
   }
 
+  updateCounter(progress) {
+    const { from, to, easing } = this.props;
+    const delta = to - from;
+    const counter = from + delta * easing(progress);
+    this.setState({
+      counter,
+    });
+  }
+
   clear() {
-    clearInterval(this.interval);
+    cancelAnimationFrame(this.raf);
   }
 
   render() {
