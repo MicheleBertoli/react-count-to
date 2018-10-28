@@ -5,6 +5,7 @@ const propTypes = {
   from: PropTypes.number,
   to: PropTypes.number.isRequired,
   speed: PropTypes.number.isRequired,
+  delay: PropTypes.number,
   onComplete: PropTypes.func,
   digits: PropTypes.number,
   className: PropTypes.string,
@@ -15,6 +16,7 @@ const propTypes = {
 
 const defaultProps = {
   from: 0,
+  delay: 100,
   digits: 0,
   tagName: 'span',
   easing: t => t,
@@ -58,23 +60,33 @@ class CountTo extends PureComponent {
     this.setState({
       counter: from,
     }, () => {
-      const { speed } = this.props;
-      this.endDate = Date.now() + speed;
+      const { speed, delay } = this.props;
+      const now = Date.now();
+      this.endDate = now + speed;
+      this.scheduleNextUpdate(now, delay);
       this.raf = requestAnimationFrame(this.next);
     });
   }
 
   next() {
     const now = Date.now();
-    const { speed, onComplete } = this.props;
-    const progress = Math.max(0, Math.min(1, 1 - (this.endDate - now) / speed));
-    this.updateCounter(progress);
+    const { speed, onComplete, delay } = this.props;
+
+    if (now >= this.nextUpdate) {
+      const progress = Math.max(0, Math.min(1, 1 - (this.endDate - now) / speed));
+      this.updateCounter(progress);
+      this.scheduleNextUpdate(now, delay);
+    }
 
     if (now < this.endDate) {
       this.raf = requestAnimationFrame(this.next);
     } else if (onComplete) {
       onComplete();
     }
+  }
+
+  scheduleNextUpdate(now, delay) {
+    this.nextUpdate = Math.min(now + delay, this.endDate);
   }
 
   updateCounter(progress) {

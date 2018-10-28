@@ -50,6 +50,7 @@ Attributes
 - **from** (optional): Counting from (default: 0).
 - **to**: Counting to.
 - **speed**: Duration (in milliseconds).
+- **delay** (optional): Delay (in milliseconds) between each refresh (default: 100).
 - **onComplete** (optional): A callback triggered when counting is done.
 - **digits** (optional): The number of digits to appear after the decimal point (default: 0).
 - **className** (optional): HTML class attribute for counter element.
