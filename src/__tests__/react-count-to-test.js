@@ -18,6 +18,10 @@ describe('CountTo', () => {
       .mockReturnValueOnce(4);
   });
 
+  afterEach(() => {
+    jest.clearAllTimers();
+  });
+
   describe('with `to` and `speed` props', () => {
     it('starts from 0, ends to 1', () => {
       countTo = TestUtils.renderIntoDocument(
@@ -204,6 +208,43 @@ describe('CountTo', () => {
       expect(findDOMNode(span).textContent).toEqual('2');
       jest.runOnlyPendingTimers();
       expect(findDOMNode(span).textContent).toEqual('8');
+      jest.runOnlyPendingTimers();
+      expect(findDOMNode(span).textContent).toEqual('10');
+    });
+  });
+
+  describe('with `delay` prop', () => {
+    beforeEach(() => {
+      global.Date.now = jest.fn().mockReturnValueOnce(0);
+    });
+
+    it('does not update state before given delay', () => {
+      countTo = TestUtils.renderIntoDocument(
+        <CountTo from={0} to={10} delay={5} speed={10} />
+      );
+      const span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
+      expect(findDOMNode(span).textContent).toEqual('0');
+      global.Date.now.mockReturnValueOnce(4);
+      jest.runOnlyPendingTimers();
+      expect(findDOMNode(span).textContent).toEqual('0');
+      global.Date.now.mockReturnValueOnce(5);
+      jest.runOnlyPendingTimers();
+      expect(findDOMNode(span).textContent).toEqual('5');
+      global.Date.now.mockReturnValueOnce(6);
+      jest.runOnlyPendingTimers();
+      expect(findDOMNode(span).textContent).toEqual('5');
+    });
+
+    it('finishes after `speed` ms despite `delay` prop', () => {
+      countTo = TestUtils.renderIntoDocument(
+        <CountTo from={0} to={10} delay={6} speed={10} />
+      );
+      const span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
+      expect(findDOMNode(span).textContent).toEqual('0');
+      global.Date.now.mockReturnValueOnce(6);
+      jest.runOnlyPendingTimers();
+      expect(findDOMNode(span).textContent).toEqual('6');
+      global.Date.now.mockReturnValueOnce(10);
       jest.runOnlyPendingTimers();
       expect(findDOMNode(span).textContent).toEqual('10');
     });
