@@ -63,6 +63,7 @@ var CountTo = function (_PureComponent) {
     _this.start = _this.start.bind(_this);
     _this.clear = _this.clear.bind(_this);
     _this.next = _this.next.bind(_this);
+    _this.updateCounter = _this.updateCounter.bind(_this);
     return _this;
   }
 
@@ -102,52 +103,69 @@ var CountTo = function (_PureComponent) {
         counter: from
       }, function () {
         var _props2 = _this2.props,
-            delay = _props2.delay,
             speed = _props2.speed,
-            to = _props2.to;
+            delay = _props2.delay;
 
-        _this2.loopsCounter = 0;
-        _this2.loops = Math.ceil(speed / delay);
-        _this2.delta = to - from;
-        _this2.interval = setInterval(_this2.next, delay);
+        var now = Date.now();
+        _this2.endDate = now + speed;
+        _this2.scheduleNextUpdate(now, delay);
+        _this2.raf = requestAnimationFrame(_this2.next);
       });
     }
   }, {
     key: 'next',
     value: function next() {
-      if (this.loopsCounter < this.loops) {
-        this.loopsCounter++;
-        var _props3 = this.props,
-            from = _props3.from,
-            easing = _props3.easing;
+      var now = Date.now();
+      var _props3 = this.props,
+          speed = _props3.speed,
+          onComplete = _props3.onComplete,
+          delay = _props3.delay;
 
-        var counter = from + this.delta * easing(this.loopsCounter / this.loops);
-        this.setState({
-          counter: counter
-        });
-      } else {
-        var onComplete = this.props.onComplete;
 
-        this.clear();
-
-        if (onComplete) {
-          onComplete();
-        }
+      if (now >= this.nextUpdate) {
+        var progress = Math.max(0, Math.min(1, 1 - (this.endDate - now) / speed));
+        this.updateCounter(progress);
+        this.scheduleNextUpdate(now, delay);
       }
+
+      if (now < this.endDate) {
+        this.raf = requestAnimationFrame(this.next);
+      } else if (onComplete) {
+        onComplete();
+      }
+    }
+  }, {
+    key: 'scheduleNextUpdate',
+    value: function scheduleNextUpdate(now, delay) {
+      this.nextUpdate = Math.min(now + delay, this.endDate);
+    }
+  }, {
+    key: 'updateCounter',
+    value: function updateCounter(progress) {
+      var _props4 = this.props,
+          from = _props4.from,
+          to = _props4.to,
+          easing = _props4.easing;
+
+      var delta = to - from;
+      var counter = from + delta * easing(progress);
+      this.setState({
+        counter: counter
+      });
     }
   }, {
     key: 'clear',
     value: function clear() {
-      clearInterval(this.interval);
+      cancelAnimationFrame(this.raf);
     }
   }, {
     key: 'render',
     value: function render() {
-      var _props4 = this.props,
-          className = _props4.className,
-          digits = _props4.digits,
-          Tag = _props4.tagName,
-          fn = _props4.children;
+      var _props5 = this.props,
+          className = _props5.className,
+          digits = _props5.digits,
+          Tag = _props5.tagName,
+          fn = _props5.children;
       var counter = this.state.counter;
 
       var value = counter.toFixed(digits);
