@@ -35,6 +35,7 @@ class CountTo extends PureComponent {
     this.start = this.start.bind(this);
     this.clear = this.clear.bind(this);
     this.next = this.next.bind(this);
+    this.updateCounter = this.updateCounter.bind(this);
   }
 
   componentDidMount() {
@@ -59,34 +60,46 @@ class CountTo extends PureComponent {
     this.setState({
       counter: from,
     }, () => {
-      const { delay, speed, to } = this.props;
-      this.loopsCounter = 0;
-      this.loops = Math.ceil(speed / delay);
-      this.delta = to - from;
-      this.interval = setInterval(this.next, delay);
+      const { speed, delay } = this.props;
+      const now = Date.now();
+      this.endDate = now + speed;
+      this.scheduleNextUpdate(now, delay);
+      this.raf = requestAnimationFrame(this.next);
     });
   }
 
   next() {
-    if (this.loopsCounter < this.loops) {
-      this.loopsCounter++;
-      const { from, easing } = this.props;
-      const counter = from + this.delta * easing(this.loopsCounter / this.loops);
-      this.setState({
-        counter,
-      });
-    } else {
-      const { onComplete } = this.props;
-      this.clear();
+    const now = Date.now();
+    const { speed, onComplete, delay } = this.props;
 
-      if (onComplete) {
-        onComplete();
-      }
+    if (now >= this.nextUpdate) {
+      const progress = Math.max(0, Math.min(1, 1 - (this.endDate - now) / speed));
+      this.updateCounter(progress);
+      this.scheduleNextUpdate(now, delay);
+    }
+
+    if (now < this.endDate) {
+      this.raf = requestAnimationFrame(this.next);
+    } else if (onComplete) {
+      onComplete();
     }
   }
 
+  scheduleNextUpdate(now, delay) {
+    this.nextUpdate = Math.min(now + delay, this.endDate);
+  }
+
+  updateCounter(progress) {
+    const { from, to, easing } = this.props;
+    const delta = to - from;
+    const counter = from + delta * easing(progress);
+    this.setState({
+      counter,
+    });
+  }
+
   clear() {
-    clearInterval(this.interval);
+    cancelAnimationFrame(this.raf);
   }
 
   render() {

@@ -9,6 +9,19 @@ import CountTo from '../react-count-to';
 describe('CountTo', () => {
   let countTo;
 
+  beforeEach(() => {
+    global.Date.now = jest.fn()
+      .mockReturnValueOnce(0)
+      .mockReturnValueOnce(1)
+      .mockReturnValueOnce(2)
+      .mockReturnValueOnce(3)
+      .mockReturnValueOnce(4);
+  });
+
+  afterEach(() => {
+    jest.clearAllTimers();
+  });
+
   describe('with `to` and `speed` props', () => {
     it('starts from 0, ends to 1', () => {
       countTo = TestUtils.renderIntoDocument(
@@ -16,7 +29,7 @@ describe('CountTo', () => {
       );
       const span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
       expect(findDOMNode(span).textContent).toEqual('0');
-      jest.runAllTimers();
+      jest.runOnlyPendingTimers();
       expect(findDOMNode(span).textContent).toEqual('1');
     });
   });
@@ -37,7 +50,7 @@ describe('CountTo', () => {
       countTo = TestUtils.renderIntoDocument(
         <CountTo to={1} speed={1} onComplete={onComplete} />
       );
-      jest.runAllTimers();
+      jest.runOnlyPendingTimers();
       expect(onComplete).toBeCalled();
     });
   });
@@ -49,7 +62,7 @@ describe('CountTo', () => {
       );
       const span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
       expect(findDOMNode(span).textContent).toEqual('-1');
-      jest.runAllTimers();
+      jest.runOnlyPendingTimers();
       expect(findDOMNode(span).textContent).toEqual('1');
     });
 
@@ -59,7 +72,7 @@ describe('CountTo', () => {
       );
       const span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
       expect(findDOMNode(span).textContent).toEqual('1');
-      jest.runAllTimers();
+      jest.runOnlyPendingTimers();
       expect(findDOMNode(span).textContent).toEqual('-1');
     });
 
@@ -69,7 +82,7 @@ describe('CountTo', () => {
       );
       const span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
       expect(findDOMNode(span).textContent).toEqual('-1');
-      jest.runAllTimers();
+      jest.runOnlyPendingTimers();
       expect(findDOMNode(span).textContent).toEqual('-2');
     });
   });
@@ -81,7 +94,7 @@ describe('CountTo', () => {
       );
       const span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
       expect(findDOMNode(span).textContent).toEqual('-0.5');
-      jest.runAllTimers();
+      jest.runOnlyPendingTimers();
       expect(findDOMNode(span).textContent).toEqual('0.5');
     });
   });
@@ -106,13 +119,13 @@ describe('CountTo', () => {
       );
       const span = TestUtils.findRenderedDOMComponentWithTag(parent, 'span');
       expect(findDOMNode(span).textContent).toEqual('0');
-      jest.runAllTimers();
+      jest.runOnlyPendingTimers();
       expect(findDOMNode(span).textContent).toEqual('1');
       parent.setState({
         to: 2,
       });
       expect(findDOMNode(span).textContent).toEqual('0');
-      jest.runAllTimers();
+      jest.runOnlyPendingTimers();
       expect(findDOMNode(span).textContent).toEqual('2');
     });
 
@@ -122,14 +135,14 @@ describe('CountTo', () => {
       );
       const span = TestUtils.findRenderedDOMComponentWithTag(parent, 'span');
       expect(findDOMNode(span).textContent).toEqual('0');
-      jest.runAllTimers();
+      jest.runOnlyPendingTimers();
       expect(findDOMNode(span).textContent).toEqual('1');
       parent.setState({
         from: 2,
         to: 3,
       });
       expect(findDOMNode(span).textContent).toEqual('2');
-      jest.runAllTimers();
+      jest.runOnlyPendingTimers();
       expect(findDOMNode(span).textContent).toEqual('3');
     });
   });
@@ -141,7 +154,7 @@ describe('CountTo', () => {
       );
       const div = TestUtils.findRenderedDOMComponentWithTag(countTo, 'div');
       expect(findDOMNode(div).textContent).toEqual('0');
-      jest.runAllTimers();
+      jest.runOnlyPendingTimers();
       expect(findDOMNode(div).textContent).toEqual('1');
     });
   });
@@ -152,7 +165,7 @@ describe('CountTo', () => {
       countTo = TestUtils.renderIntoDocument(
         <CountTo to={1} speed={1}>{fn}</CountTo>
       );
-      jest.runAllTimers();
+      jest.runOnlyPendingTimers();
       expect(fn.mock.calls.length).toBe(2);
       expect(fn).lastCalledWith('1');
       const span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
@@ -161,15 +174,23 @@ describe('CountTo', () => {
   });
 
   describe('easing prop', () => {
+    beforeEach(() => {
+      global.Date.now = jest.fn()
+        .mockReturnValueOnce(0)
+        .mockReturnValueOnce(100)
+        .mockReturnValueOnce(200)
+        .mockReturnValueOnce(300);
+    });
+
     it('does not modify behaviour by default', () => {
       countTo = TestUtils.renderIntoDocument(
         <CountTo to={10} speed={200} />
       );
       const span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
       expect(findDOMNode(span).textContent).toEqual('0');
-      jest.advanceTimersByTime(100);
+      jest.runOnlyPendingTimers();
       expect(findDOMNode(span).textContent).toEqual('5');
-      jest.advanceTimersByTime(100);
+      jest.runOnlyPendingTimers();
       expect(findDOMNode(span).textContent).toEqual('10');
     });
 
@@ -179,15 +200,52 @@ describe('CountTo', () => {
         .mockReturnValueOnce(0.8)
         .mockReturnValueOnce(1);
       countTo = TestUtils.renderIntoDocument(
-        <CountTo to={10} speed={250} easing={easing} />
+        <CountTo to={10} speed={300} easing={easing} />
       );
       const span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
       expect(findDOMNode(span).textContent).toEqual('0');
-      jest.advanceTimersByTime(100);
+      jest.runOnlyPendingTimers();
       expect(findDOMNode(span).textContent).toEqual('2');
-      jest.advanceTimersByTime(100);
+      jest.runOnlyPendingTimers();
       expect(findDOMNode(span).textContent).toEqual('8');
-      jest.runAllTimers();
+      jest.runOnlyPendingTimers();
+      expect(findDOMNode(span).textContent).toEqual('10');
+    });
+  });
+
+  describe('with `delay` prop', () => {
+    beforeEach(() => {
+      global.Date.now = jest.fn().mockReturnValueOnce(0);
+    });
+
+    it('does not update state before given delay', () => {
+      countTo = TestUtils.renderIntoDocument(
+        <CountTo from={0} to={10} delay={5} speed={10} />
+      );
+      const span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
+      expect(findDOMNode(span).textContent).toEqual('0');
+      global.Date.now.mockReturnValueOnce(4);
+      jest.runOnlyPendingTimers();
+      expect(findDOMNode(span).textContent).toEqual('0');
+      global.Date.now.mockReturnValueOnce(5);
+      jest.runOnlyPendingTimers();
+      expect(findDOMNode(span).textContent).toEqual('5');
+      global.Date.now.mockReturnValueOnce(6);
+      jest.runOnlyPendingTimers();
+      expect(findDOMNode(span).textContent).toEqual('5');
+    });
+
+    it('finishes after `speed` ms despite `delay` prop', () => {
+      countTo = TestUtils.renderIntoDocument(
+        <CountTo from={0} to={10} delay={6} speed={10} />
+      );
+      const span = TestUtils.findRenderedDOMComponentWithTag(countTo, 'span');
+      expect(findDOMNode(span).textContent).toEqual('0');
+      global.Date.now.mockReturnValueOnce(6);
+      jest.runOnlyPendingTimers();
+      expect(findDOMNode(span).textContent).toEqual('6');
+      global.Date.now.mockReturnValueOnce(10);
+      jest.runOnlyPendingTimers();
       expect(findDOMNode(span).textContent).toEqual('10');
     });
   });
